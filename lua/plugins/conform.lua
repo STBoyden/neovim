@@ -8,6 +8,7 @@ return {
           lua = { "stylua" },
           go = { "golangci-lint" },
           sh = { "shfmt" },
+          templ = { "templ" },
         },
       }
 
