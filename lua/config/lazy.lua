@@ -1,3 +1,11 @@
+--[[
+-- File name: lazy.lua
+-- Author: Samuel Boyden
+-- Date created: 2025-07-29
+-- Date modified: 2025-08-10
+-- All rights reserved.
+--]]
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"

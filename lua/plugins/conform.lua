@@ -1,14 +1,28 @@
+--[[
+-- File name: conform.lua
+-- Author: Samuel Boyden
+-- Date created: 2025-08-10
+-- Date modified: 2025-08-10
+-- All rights reserved.
+--]]
+
 return {
   {
     "stevearc/conform.nvim",
     opts = function()
-      ---@type conform.setupOpts
       local opts = {
         formatters_by_ft = {
-          lua = { "stylua" },
           go = { "golangci-lint" },
+          lua = { "stylua" },
           sh = { "shfmt" },
           templ = { "templ" },
+          rust = { "rustfmt" },
+        },
+
+        formatters = {
+          rustfmt = {
+            prepend_args = { "+nightly" },
+          },
         },
       }
 
