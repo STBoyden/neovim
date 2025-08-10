@@ -1,19 +1,11 @@
---[[
 -- File name: header.lua
 -- Author: Samuel Boyden
 -- Date created: 2025-08-10
 -- Date modified: 2025-08-10
--- All rights reserved.
---]]
-
--- This module contains functionality to automatically add license headers to
--- the top of files if they are not present in the current buffer.
---
--- This file contains some private code copied from the "header.nvim" which is
--- licensed under the MIT license.
+-- ------
+-- Copyright (c) 2025 Samuel Boyden. All rights reserved.
 
 local filetype_table = require("filetypes")
-local header = require("header")
 
 local header_helpers = {}
 
@@ -55,7 +47,7 @@ local function find_block_comment_end(lines, comments)
   return 0 -- No complete block comment found
 end
 
-local function find_line_comment_header_end(lines, comments)
+local function find_line_comment_header_end(header, lines, comments)
   if not comments or not comments.comment then
     return 0
   end
@@ -64,7 +56,17 @@ local function find_line_comment_header_end(lines, comments)
   local last_comment_line = 0
 
   for i, line in ipairs(lines) do
-    if line:match(comment_pat) or line:match("^%s*$") then
+    if
+      line:match(comment_pat)
+      or line:match("^%s*$")
+      or (
+        not header.config.use_block_header
+        and (
+          (header.config.line_separator and line:match("^%s*" .. header.config.line_separator .. "$"))
+          or (header.config.copyright_text and line:match("^%s*" .. header.config.copyright_text .. "$"))
+        )
+      )
+    then
       last_comment_line = i
     else
       break
@@ -74,21 +76,21 @@ local function find_line_comment_header_end(lines, comments)
   return last_comment_line
 end
 
-local function find_header_end(lines, comments)
-  if comments.comment_start and comments.comment_end then
+local function find_header_end(header, lines, comments)
+  if comments and comments.comment_start and comments.comment_end then
     return find_block_comment_end(lines, comments)
   else
-    return find_line_comment_header_end(lines, comments)
+    return find_line_comment_header_end(header, lines, comments)
   end
 end
 
-local function get_header_lines(buffer, comments)
+local function get_header_lines(header, buffer, comments)
   local max_header_lines = vim.api.nvim_buf_get_lines(buffer, 0, header.header_size, false)
-  local header_end = find_header_end(max_header_lines, comments)
+  local header_end = find_header_end(header, max_header_lines, comments)
   return vim.api.nvim_buf_get_lines(buffer, 0, header_end, false)
 end
 
-header_helpers.add_header_if_not_present = function()
+header_helpers.add_header_if_not_present = function(header)
   local buffer = vim.api.nvim_get_current_buf()
   local file_extension = vim.fn.expand("%:e")
   -- Check if the file extension is in the filetype_table
@@ -96,8 +98,8 @@ header_helpers.add_header_if_not_present = function()
     vim.notify("File type not supported for updating header", vim.log.levels.WARN)
     return
   end
-  local comments = filetype_table[file_extension]()
-  local lines = get_header_lines(buffer, comments)
+  local comments = filetype_table[file_extension](header.config.use_block_header)
+  local lines = get_header_lines(header, buffer, comments)
 
   if #lines <= 0 then
     header.add_headers()

@@ -1,19 +1,9 @@
---[[
 -- File name: autocmds.lua
 -- Author: Samuel Boyden
--- Date created: 2025-07-29
+-- Date created: 2025-06-11
 -- Date modified: 2025-08-10
--- All rights reserved.
---]]
-
--- Autocmds are automatically loaded on the VeryLazy event
--- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
---
--- Add any additional autocmds here
--- with `vim.api.nvim_create_autocmd`
---
--- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
--- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+-- ------
+-- Copyright (c) 2025 Samuel Boyden. All rights reserved.
 
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
@@ -27,7 +17,7 @@ autocmd("BufWritePre", {
     local header = require("header")
     local header_helper = require("config.helpers.header")
 
-    local added_header = header_helper and header_helper.add_header_if_not_present()
+    local added_header = header_helper and header_helper.add_header_if_not_present(header)
 
     if not added_header and header and header.update_date_modified then
       header.update_date_modified()

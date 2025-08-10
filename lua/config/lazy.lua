@@ -1,10 +1,9 @@
---[[
 -- File name: lazy.lua
 -- Author: Samuel Boyden
--- Date created: 2025-07-29
+-- Date created: 2025-06-11
 -- Date modified: 2025-08-10
--- All rights reserved.
---]]
+-- ------
+-- Copyright (c) 2025 Samuel Boyden. All rights reserved.
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
