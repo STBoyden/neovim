@@ -15,9 +15,10 @@ autocmd("BufWritePre", {
   pattern = "*",
   callback = function()
     local header = require("header")
-    local header_helper = require("config.helpers.header")
+    -- local header_helper = require("config.helpers.header")
 
-    local added_header = header_helper and header_helper.add_header_if_not_present(header)
+    -- local added_header = header_helper and header_helper.add_header_if_not_present(header)
+    local added_header = false
 
     if not added_header and header and header.update_date_modified then
       header.update_date_modified()

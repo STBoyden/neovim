@@ -23,8 +23,8 @@ local function escape_special_characters(pattern)
 end
 
 local function find_block_comment_end(lines, comments)
-  local start_pat = escape_special_characters(comments.comment_start or "")
-  local end_pat = escape_special_characters(comments.comment_end or "")
+  local start_pat = escape_special_characters(comments.block.start or "")
+  local end_pat = escape_special_characters(comments.block["end"] or "")
 
   if start_pat == "" or end_pat == "" then
     return 0 -- Cannot proceed without both start and end
@@ -48,24 +48,19 @@ local function find_block_comment_end(lines, comments)
 end
 
 local function find_line_comment_header_end(header, lines, comments)
-  if not comments or not comments.comment then
+  if not comments or not comments.line then
     return 0
   end
 
-  local comment_pat = "^%s*" .. escape_special_characters(comments.comment)
+  local comment_pat = "^%s*" .. escape_special_characters(comments.line.line)
   local last_comment_line = 0
 
   for i, line in ipairs(lines) do
     if
       line:match(comment_pat)
       or line:match("^%s*$")
-      or (
-        not header.config.use_block_header
-        and (
-          (header.config.line_separator and line:match("^%s*" .. header.config.line_separator .. "$"))
-          or (header.config.copyright_text and line:match("^%s*" .. header.config.copyright_text .. "$"))
-        )
-      )
+      or (header.config.line_separator and line:match(comment_pat .. "%s*" .. header.config.line_separator .. "$"))
+      or (header.config.copyright_text and line:match(comment_pat .. "%s*" .. header.config.copyright_text .. "$"))
     then
       last_comment_line = i
     else
@@ -77,10 +72,10 @@ local function find_line_comment_header_end(header, lines, comments)
 end
 
 local function find_header_end(header, lines, comments)
-  if comments and comments.comment_start and comments.comment_end then
+  if header.config.use_block_header and comments.block and comments.block.start and comments.block["end"] then
     return find_block_comment_end(lines, comments)
   else
-    return find_line_comment_header_end(header, lines, comments)
+    return find_line_comment_header_end(lines, comments)
   end
 end
 
@@ -98,7 +93,7 @@ header_helpers.add_header_if_not_present = function(header)
     vim.notify("File type not supported for updating header", vim.log.levels.WARN)
     return
   end
-  local comments = filetype_table[file_extension](header.config.use_block_header)
+  local comments = filetype_table[file_extension]()
   local lines = get_header_lines(header, buffer, comments)
 
   if #lines <= 0 then

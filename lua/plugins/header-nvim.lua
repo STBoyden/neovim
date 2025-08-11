@@ -1,14 +1,15 @@
 -- File name: header-nvim.lua
 -- Author: Samuel Boyden
 -- Date created: 2025-08-10
--- Date modified: 2025-08-10
+-- Date modified: 2025-08-11
 -- ------
 -- Copyright (c) 2025 Samuel Boyden. All rights reserved.
 
 return {
   {
-    "STBoyden/header.nvim",
-    branch = "add-block-comment-option",
+    "attilarepka/header.nvim",
+    -- dir = "~/dev/repos/personal/header.nvim",
+    -- dev = true,
     config = function()
       require("header").setup({
         author = "Samuel Boyden",
