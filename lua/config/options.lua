@@ -15,7 +15,11 @@ if jit.os == "OSX" then
 end
 
 vim.filetype.add({
+  filename = {
+    [".header.nvim"] = "json",
+    ["Podfile"] = "ruby",
+  },
   pattern = {
-    [".*/.header.nvim"] = "json",
+    [".*/*.xcstrings"] = "json",
   },
 })
