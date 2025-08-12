@@ -14,3 +14,5 @@ local whichkey = require("which-key")
 if jit.os == "OSX" then
   require("config.keymaps.osx").setup_keybinds(whichkey)
 end
+
+require("config.keymaps.all").setup_keybinds(whichkey)
