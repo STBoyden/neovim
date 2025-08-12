@@ -1,7 +1,7 @@
 -- File name: options.lua
 -- Author: Samuel Boyden
 -- Date created: 2025-06-11
--- Date modified: 2025-08-10
+-- Date modified: 2025-08-12
 -- ------
 -- Copyright (c) 2025 Samuel Boyden. All rights reserved.
 
@@ -13,3 +13,9 @@ if jit.os == "OSX" then
   print("Enabling sourcekit for macOS")
   vim.lsp.enable("sourcekit")
 end
+
+vim.filetype.add({
+  pattern = {
+    [".*/.header.nvim"] = "json",
+  },
+})
