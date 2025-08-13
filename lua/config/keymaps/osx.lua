@@ -1,7 +1,7 @@
 -- File name: osx.lua
 -- Author: Samuel Boyden
 -- Date created: 2025-08-12
--- Date modified: 2025-08-12
+-- Date modified: 2025-08-13
 -- ------
 -- Copyright (c) 2025 Samuel Boyden. All rights reserved.
 
@@ -15,7 +15,7 @@ M.setup_keybinds = function(whichkey)
 
   if require("xcodebuild") then
     whichkey.add({
-      { "<leader>X", name = "Xcodebuild" },
+      { "<leader>X", group = "Xcodebuild", icon = { icon = "\u{e8e8}", color = "blue" } },
     })
 
     vim.keymap.set("n", "<leader>Xx", "<cmd>XcodebuildPicker<cr>", { desc = "Show Xcodebuild Actions" })
