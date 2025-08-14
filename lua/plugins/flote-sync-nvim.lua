@@ -1,7 +1,7 @@
 -- File name: flote-sync-nvim.lua
 -- Author: Samuel Boyden
 -- Date created: 2025-08-13
--- Date modified: 2025-08-13
+-- Date modified: 2025-08-14
 -- ------
 -- Copyright (c) 2025 Samuel Boyden. All rights reserved.
 
@@ -10,7 +10,7 @@ local M = {}
 
 if vim.uv.fs_stat(dev_dir) then
   M = {
-    dir = "~/dev/repos/personal/flote-sync.nvim",
+    dir = dev_dir,
     dev = true,
     config = function()
       local flote_sync = require("flote-sync")
