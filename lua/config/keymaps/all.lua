@@ -225,7 +225,7 @@ M.setup_keybinds = function(whichkey)
 
       -- add a cursor and jump to the next/previous search result
       {
-        "<leader>/n",
+        "<leader>sz",
         function()
           mc.searchAddCursor(1)
         end,
@@ -234,7 +234,7 @@ M.setup_keybinds = function(whichkey)
         icon = multicursor_icon,
       },
       {
-        "<leader>/N",
+        "<leader>sZ",
         function()
           mc.searchAddCursor(-1)
         end,
@@ -245,7 +245,7 @@ M.setup_keybinds = function(whichkey)
 
       -- skip next/previous search result and don't add cursor
       {
-        "<leader>/s",
+        "<leader>sx",
         function()
           mc.searchSkipCursor(1)
         end,
@@ -254,7 +254,7 @@ M.setup_keybinds = function(whichkey)
         icon = multicursor_icon,
       },
       {
-        "<leader>/S",
+        "<leader>sX",
         function()
           mc.searchSkipCursor(-1)
         end,
@@ -264,7 +264,7 @@ M.setup_keybinds = function(whichkey)
 
       -- add a cursor to every search result
       {
-        "<leader>/A",
+        "<leader>sA",
         mc.searchAddAllCursors,
         desc = "(multicursor-nvim) Add cursor to all search results",
         icon = multicursor_icon,
