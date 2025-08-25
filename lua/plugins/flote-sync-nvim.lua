@@ -12,6 +12,10 @@ if vim.uv.fs_stat(dev_dir) then
   M = {
     dir = dev_dir,
     dev = true,
+    dependencies = {
+      "Jellyapple102/flote.nvim",
+      "nvim-lua/plenary.nvim",
+    },
     config = function()
       local flote_sync = require("flote-sync")
 
